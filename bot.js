@@ -1,8 +1,8 @@
 var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth');
-var server = require('./server');
-var response = require('./responses');
+var server = require('./data/server');
+var response = require('./src/responses');
 
 //Configure logger settings
 logger.remove(logger.transports.Console);

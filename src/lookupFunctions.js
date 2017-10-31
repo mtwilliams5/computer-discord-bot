@@ -1,5 +1,5 @@
-var server = require('./server');
-var crew = require('./members');
+var server = require('../data/server');
+var crew = require('../data/members');
 
 exports.getAllCrew = function(bot) {
   let members = bot.servers[server.id].members;
