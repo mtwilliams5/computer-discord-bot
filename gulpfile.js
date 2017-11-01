@@ -1,11 +1,9 @@
-// eslint-disable no-console
-
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var eslint = require('gulp-eslint');
 
 gulp.task('lint', () => {
-  return gulp.src(['*.js', '**/*.js', '!node_modules/**'])
+  return gulp.src(['*.js', '**/*.js', '!node_modules/**', '!gulpfile.js'])
     .pipe(eslint('./.eslintrc.json'))
     .pipe(eslint.format());
 });
