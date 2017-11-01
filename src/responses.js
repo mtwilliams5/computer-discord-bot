@@ -11,7 +11,7 @@ exports.listAllCrew = function(bot, channelID) {
 }
 
 exports.getCrewMember = function(bot, channelID, name) {
-  arg = name.split(' ');
+  let arg = name.split(' ');
   let res = lookup.getCrewByName(bot, arg[1]);
   bot.sendMessage({
     to: channelID,
@@ -52,9 +52,31 @@ exports.klingons = function(bot, channelID) {
   });
 }
 
+// Utility responses
 exports.random = function(bot, channelID) {
   bot.sendMessage({
     to: channelID,
     message: helper.getRandomInt(1, 10)
+  });
+}
+
+exports.help = function(bot, channelID) {
+  let res = "There are two types of commands that can be given to this bot: standard bot-style commands beginning with !, and more natural-language commands starting with the word Computer.\n";
+  res += "Below are the commands currently available in this bot:\n\n";
+
+  res += "!help - displays this help text.\n"
+  res += "!ping - returns the text 'Pong!'\n";
+  res += "!members - returns a list of members of the server and the details of their corresponding character on the sim.\n";
+  res += "!trout - slaps the user with a trout.\n";
+  res += "!klingons - returns a random verse from the song 'Star Trekkin', with the words adjusted to match the USS Highlander.\n";
+  res += "!random - returns a random number between 1 and 10.\n\n";
+
+  res += "Computer ping - returns the text 'Pong!'\n";
+  res += "Computer who is everyone - returns a list of members of the sever and the details of their corresponding character on the sim. See also !members\n";
+  res += "Computer who is <name> - returns the character details of the named user, providing that user is a known member of the sim.";
+
+  bot.sendMessage({
+    to: channelID,
+    message: res
   });
 }

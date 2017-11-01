@@ -1,7 +1,6 @@
 var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth');
-var server = require('./data/server');
 var response = require('./src/responses');
 
 //Configure logger settings
@@ -24,14 +23,20 @@ bot.on('ready', function(evt) {
 });
 
 bot.on('message', function (user, userID, channelID, message, evt) {
+  var args, cmd;
+
   //Our bot needs to know if it will execute a command
   //It will listen for messages that will start with `!`
   if (message.substring(0,1) == '!') {
-    var args = message.substring(1).split(' ');
-    var cmd = args[0];
+    args = message.substring(1).split(' ');
+    cmd = args[0];
 
     args = args.splice(1);
     switch(cmd) {
+      // !help
+      case 'help':
+        response.help(bot, channelID);
+      break;
       // !ping
       case 'ping':
         bot.sendMessage({
@@ -59,8 +64,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
   }
   //We also want it to listen for messages that will start with `Computer `
   if (message.substring(0,9) == 'Computer ') {
-    var args = message.substring(9).split(' ');
-    var cmd = args[0];
+    args = message.substring(9).split(' ');
+    cmd = args[0];
 
     args = args.splice(1);
     switch(cmd) {
