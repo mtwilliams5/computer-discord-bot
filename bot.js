@@ -15,7 +15,7 @@ var bot = new Discord.Client({
   token: auth.token,
   autorun: true
 });
-
+/*eslint-disable-line no-unused-vars*/
 bot.on('ready', function(evt) {
   logger.info('Connected');
   logger.info('Logged in as: ');
@@ -86,6 +86,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
           break;
           default:
             response.getCrewMember(bot, channelID, name);
+          break;
+        }
+      break;
+
+      // Text generators
+      case 'generate':
+        var generator = args.join(' ');
+        switch(generator) {
+          case (generator.match(/access code/i) || {}).input:
+            response.generateAccessCode(bot, channelID, userID, user);
           break;
         }
       break;

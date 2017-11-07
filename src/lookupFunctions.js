@@ -30,3 +30,11 @@ exports.getCrewByName = function(bot, n) {
   }
   return res.msg;
 }
+
+exports.getCrewByUserId = function(bot, id) {
+  if (crew[id]) {
+    return crew[id];
+  } else {
+    return false;
+  }
+}
