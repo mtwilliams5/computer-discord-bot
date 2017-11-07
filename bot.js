@@ -15,14 +15,14 @@ var bot = new Discord.Client({
   token: auth.token,
   autorun: true
 });
-/*eslint-disable-line no-unused-vars*/
-bot.on('ready', function(evt) {
+
+bot.on('ready', function(evt) {//eslint-disable-line no-unused-vars
   logger.info('Connected');
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
 });
 
-bot.on('message', function (user, userID, channelID, message, evt) {
+bot.on('message', function (user, userID, channelID, message, evt) {//eslint-disable-line no-unused-vars
   var args, cmd;
 
   //Our bot needs to know if it will execute a command
@@ -94,6 +94,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
       case 'generate':
         var generator = args.join(' ');
         switch(generator) {
+          case (generator.match(/impossible access code/i) || {}).input:
+            response.generateImpossibleAccessCode(bot, channelID, userID, user);
+          break;
           case (generator.match(/access code/i) || {}).input:
             response.generateAccessCode(bot, channelID, userID, user);
           break;

@@ -1,6 +1,33 @@
 var lookup = require('./lookupFunctions');
 var helper = require('./helperFunctions');
 
+const alpha = [
+  "Alpha",
+  "Beta",
+  "Gamma",
+  "Delta",
+  "Epsilon",
+  "Zeta",
+  "Eta",
+  "Theta",
+  "Iota",
+  "Kappa",
+  "Lambda",
+  "Mu",
+  "Nu",
+  "Xi",
+  "Omicron",
+  "Pi",
+  "Rho",
+  "Sigma",
+  "Tau",
+  "Upsilon",
+  "Phi",
+  "Chi",
+  "Psi",
+  "Omega"
+];
+
 // Crew Lookup Responses
 exports.listAllCrew = function(bot, channelID) {
   let res = lookup.getAllCrew(bot);
@@ -21,32 +48,6 @@ exports.getCrewMember = function(bot, channelID, name) {
 
 // RP Responses
 exports.generateAccessCode = function(bot, channelID, userID, user) {
-  let alpha = [
-    "Alpha",
-    "Beta",
-    "Gamma",
-    "Delta",
-    "Epsilon",
-    "Zeta",
-    "Eta",
-    "Theta",
-    "Iota",
-    "Kappa",
-    "Lambda",
-    "Mu",
-    "Nu",
-    "Xi",
-    "Omicron",
-    "Pi",
-    "Rho",
-    "Sigma",
-    "Tau",
-    "Upsilon",
-    "Phi",
-    "Chi",
-    "Psi",
-    "Omega"
-  ];
   let a = helper.getRandomInt(0,(alpha.length - 1));
 
   let char = lookup.getCrewByUserId(userID);
@@ -58,9 +59,54 @@ exports.generateAccessCode = function(bot, channelID, userID, user) {
   }
   let lastName = name[(name.length - 1)];
 
-  let res = lastName + '-' + alpha[a]
-    + '-' + helper.getRandomInt(0, 9) + '-' + helper.getRandomInt(0, 9)
-    + '-' + helper.getRandomInt(0, 9) + '-' + helper.getRandomInt(0, 9);
+  let numbers = [];
+  let numOfNumbers = helper.getRandomInt(1,4);
+  for (let i=0; i < numOfNumbers; i++) {
+    numbers.push(helper.getRandomInt(0,9));
+  }
+
+  let accessCode = numbers;
+  accessCode.push(alpha[a]);
+
+  accessCode = helper.shuffle(accessCode);
+  accessCode = accessCode.join('-');
+
+  let res = lastName + '-' + accessCode;
+
+  bot.sendMessage({
+    to: channelID,
+    message: res
+  });
+}
+
+exports.generateImpossibleAccessCode = function(bot, channelID, userID, user) {
+  let char = lookup.getCrewByUserId(userID);
+  let name;
+  if (char) {
+    name = char.character.split(" ");
+  } else {
+    name = user.split(" ");
+  }
+  let lastName = name[(name.length - 1)];
+
+  let numbers = [];
+  let numOfNumbers = helper.getRandomInt(20,40);
+  for (let i=0; i < numOfNumbers; i++) {
+    numbers.push(helper.getRandomInt(0,9));
+  }
+
+  let alphas = [];
+  let numOfAlphas = helper.getRandomInt(2,5);
+  for (let i=0; i < numOfAlphas; i++) {
+    alphas.push(alpha[helper.getRandomInt(0,(alpha.length - 1))]);
+  }
+
+  let accessCode = numbers.concat(alphas);
+
+  accessCode = helper.shuffle(accessCode);
+  accessCode = accessCode.join('-');
+
+  let res = lastName + '-' + accessCode;
 
   bot.sendMessage({
     to: channelID,
@@ -124,6 +170,7 @@ exports.help = function(bot, channelID) {
   res += "Computer who is everyone - returns a list of members of the sever and the details of their corresponding character on the sim. See also !members\n";
   res += "Computer who is <name> - returns the character details of the named user, providing that user is a known member of the sim.";
   res += "Computer generate access code - returns a standard-form access code, using the following pattern: lastName-greekLetter-0-0-0-0.";
+  res += "Computer generate impossible access code - returns an extremely long access code, using 2-5 greek letters and 20-40 numbers.";
 
   bot.sendMessage({
     to: channelID,
