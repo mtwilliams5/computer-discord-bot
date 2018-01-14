@@ -168,8 +168,8 @@ exports.help = function(bot, channelID) {
 
   res += "Computer ping - returns the text 'Pong!'\n";
   res += "Computer who is everyone - returns a list of members of the sever and the details of their corresponding character on the sim. See also !members\n";
-  res += "Computer who is <name> - returns the character details of the named user, providing that user is a known member of the sim.";
-  res += "Computer generate access code - returns a standard-form access code, using the following pattern: lastName-greekLetter-0-0-0-0.";
+  res += "Computer who is <name> - returns the character details of the named user, providing that user is a known member of the sim.\n";
+  res += "Computer generate access code - returns a standard-form access code, using the following pattern: lastName-greekLetter-0-0-0-0.\n";
   res += "Computer generate impossible access code - returns an extremely long access code, using 2-5 greek letters and 20-40 numbers.";
 
   bot.sendMessage({

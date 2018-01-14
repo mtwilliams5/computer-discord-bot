@@ -8,7 +8,7 @@ logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
   colorize: true
 });
-logger.level = 'debug';
+logger.level = 'verbose';
 
 //Initialise Discord Bot
 var bot = new Discord.Client({
@@ -20,6 +20,10 @@ bot.on('ready', function(evt) {//eslint-disable-line no-unused-vars
   logger.info('Connected');
   logger.info('Logged in as: ');
   logger.info(bot.username + ' - (' + bot.id + ')');
+});
+
+bot.on('error', function(err) {
+  logger.error(err.message);
 });
 
 bot.on('message', function (user, userID, channelID, message, evt) {//eslint-disable-line no-unused-vars
@@ -105,3 +109,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
     }
   }
 });
+
+bot.on('disconnect', function() {
+  logger.info('Bot disconnected.');
+  bot.connect();
+})
