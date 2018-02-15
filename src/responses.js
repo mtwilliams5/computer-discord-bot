@@ -147,6 +147,13 @@ exports.klingons = function(bot, channelID) {
   });
 }
 
+exports.tag = function(bot, channelID, user) {
+  bot.sendMessage({
+    to: channelID,
+    message: `Tag loaded into photon torpedo. Firing at ${user}`
+  });
+}
+
 // Utility responses
 exports.random = function(bot, channelID) {
   bot.sendMessage({
@@ -164,6 +171,7 @@ exports.help = function(bot, channelID) {
   res += "!members - returns a list of members of the server and the details of their corresponding character on the sim.\n";
   res += "!trout - slaps the user with a trout.\n";
   res += "!klingons - returns a random verse from the song 'Star Trekkin', with the words adjusted to match the USS Highlander.\n";
+  res += "!tag - notifies the given user that they have a tag.\n"
   res += "!random - returns a random number between 1 and 10.\n\n";
 
   res += "Computer ping - returns the text 'Pong!'\n";

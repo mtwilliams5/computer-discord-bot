@@ -64,6 +64,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
       case 'random':
         response.random(bot, channelID);
       break;
+      // !tag
+      case 'tag':
+        var tagTarget = args[0];
+        response.tag(bot, channelID, tagTarget);
+      break;
     }
   }
   //We also want it to listen for messages that will start with `Computer `
