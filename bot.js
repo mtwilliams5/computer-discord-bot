@@ -2,6 +2,9 @@ const Discord = require('discord.io');
 const logger = require('winston');
 const auth = require('./auth');
 const response = require('./src/responses');
+const reminders = require('./src/reminders');
+
+const hour = 3600000;
 
 //Configure logger settings
 logger.remove(logger.transports.Console);
@@ -125,3 +128,5 @@ bot.on('disconnect', function() {
   logger.info('Bot disconnected.');
   bot.connect();
 });
+
+setInterval(() => { reminders.remindMonthlyMeeting(bot) }, hour * 8);

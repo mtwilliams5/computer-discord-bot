@@ -38,3 +38,20 @@ exports.getCrewByUserId = function(bot, id) {
     return false;
   }
 }
+
+const getFirstOfMonth = function() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = d.getMonth();
+  return new Date(y, m, 1);
+}
+
+exports.getSecondSunday = function() {
+  const d = getFirstOfMonth();
+  if(d.getDay() == 0) {
+    return d.setDate(d.getDate + 7);
+  } else {
+    const daysToSecondSunday = 14 - d.getDay();
+    return d.setDate(d.getDate + daysToSecondSunday);
+  }
+}
