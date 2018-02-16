@@ -1,7 +1,7 @@
 const lookup = require('./lookupFunctions');
-import channelIDs from '../data/server';
+const channels = require('../data/server').channelIDs;
 
-exports.remindMonthlyMeeting = function(bot, channelID = channelIDs.commandstaff) {
+exports.remindMonthlyMeeting = function(bot, channelID = channels.commandstaff) {
   let lastReminder;
   const today = new Date();
   const tomorrow = today.setDate(today.getDate() + 1);
