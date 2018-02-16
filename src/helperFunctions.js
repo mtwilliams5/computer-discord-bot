@@ -3,7 +3,7 @@ exports.getRandomInt = function(min, max) {
 }
 
 exports.shuffle = function(array) {
-  var m = array.length, t, i;
+  let m = array.length, t, i;
 
   // While there remain elements to shuffle…
   while (m) {

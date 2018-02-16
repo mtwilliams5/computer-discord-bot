@@ -1,5 +1,5 @@
-var lookup = require('./lookupFunctions');
-var helper = require('./helperFunctions');
+const lookup = require('./lookupFunctions');
+const helper = require('./helperFunctions');
 
 const alpha = [
   "Alpha",

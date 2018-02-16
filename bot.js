@@ -1,7 +1,7 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth');
-var response = require('./src/responses');
+const Discord = require('discord.io');
+const logger = require('winston');
+const auth = require('./auth');
+const response = require('./src/responses');
 
 //Configure logger settings
 logger.remove(logger.transports.Console);
@@ -11,7 +11,7 @@ logger.add(logger.transports.Console, {
 logger.level = 'verbose';
 
 //Initialise Discord Bot
-var bot = new Discord.Client({
+const bot = new Discord.Client({
   token: auth.token,
   autorun: true
 });
@@ -27,7 +27,7 @@ bot.on('error', function(err) {
 });
 
 bot.on('message', function (user, userID, channelID, message, evt) {//eslint-disable-line no-unused-vars
-  var args, cmd;
+  let args, cmd;
 
   //Our bot needs to know if it will execute a command
   //It will listen for messages that will start with `!`
@@ -66,8 +66,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
       break;
       // !tag
       case 'tag':
-        var tagTarget = args[0];
-        response.tag(bot, channelID, tagTarget);
+        {
+          const tagTarget = args[0];
+          response.tag(bot, channelID, tagTarget);
+        }
       break;
     }
   }
@@ -88,27 +90,31 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
 
       // Crew roster checkup
       case 'who':
-        var name = args.join(' ');
-        switch(name) {
-          case (name.match(/every(one|body)/i) || {}).input:
-            response.listAllCrew(bot, channelID);
-          break;
-          default:
-            response.getCrewMember(bot, channelID, name);
-          break;
+        {
+          const name = args.join(' ');
+          switch(name) {
+            case (name.match(/every(one|body)/i) || {}).input:
+              response.listAllCrew(bot, channelID);
+            break;
+            default:
+              response.getCrewMember(bot, channelID, name);
+            break;
+          }
         }
       break;
 
       // Text generators
       case 'generate':
-        var generator = args.join(' ');
-        switch(generator) {
-          case (generator.match(/impossible access code/i) || {}).input:
-            response.generateImpossibleAccessCode(bot, channelID, userID, user);
-          break;
-          case (generator.match(/access code/i) || {}).input:
-            response.generateAccessCode(bot, channelID, userID, user);
-          break;
+        {
+          const generator = args.join(' ');
+          switch(generator) {
+            case (generator.match(/impossible access code/i) || {}).input:
+              response.generateImpossibleAccessCode(bot, channelID, userID, user);
+            break;
+            case (generator.match(/access code/i) || {}).input:
+              response.generateAccessCode(bot, channelID, userID, user);
+            break;
+          }
         }
       break;
     }
@@ -118,4 +124,4 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
 bot.on('disconnect', function() {
   logger.info('Bot disconnected.');
   bot.connect();
-})
+});

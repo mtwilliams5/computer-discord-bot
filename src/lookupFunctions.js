@@ -1,10 +1,10 @@
-var server = require('../data/server');
-var crew = require('../data/members');
+const server = require('../data/server');
+const crew = require('../data/members');
 
 exports.getAllCrew = function(bot) {
   let members = bot.servers[server.id].members;
   let res = '';
-  for (var m in members) {
+  for (let m in members) {
     if ((members[m].roles).indexOf(server.roles.crew) > -1) {
       res += bot.servers[server.id].members[m].nick || bot.users[m].username;
       let char = crew[m];
@@ -17,7 +17,7 @@ exports.getAllCrew = function(bot) {
 exports.getCrewByName = function(bot, n) {
   let members = bot.servers[server.id].members;
   let res = {};
-  for (var m in members) {
+  for (let m in members) {
     if (members[m].nick == n || bot.users[m].username == n) {
       res.id = m;
     }
