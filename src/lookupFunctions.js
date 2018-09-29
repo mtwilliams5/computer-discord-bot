@@ -8,7 +8,9 @@ exports.getAllCrew = function(bot) {
     if ((members[m].roles).indexOf(server.roles.crew) > -1) {
       res += bot.servers[server.id].members[m].nick || bot.users[m].username;
       let char = crew[m];
-      res += ': ' + char.rank + ' ' + char.character + ', ' + char.position + '\n';
+      res += ': ' + char.rank + ' ' + char.character;
+      res += char.active ? ', ' : ', Former ';
+      res += char.position + '\n';
     }
   }
   return res.substring(0, res.length-1);
@@ -24,7 +26,9 @@ exports.getCrewByName = function(bot, n) {
   }
   if (res.id) {
     let char = crew[res.id];
-    res.msg = n + ' is ' + char.rank + ' ' + char.character + ', ' + char.position;
+    res.msg = n + ' is ' + char.rank + ' ' + char.character;
+    res += char.active ? ', ' : ', Former ';
+    res += char.position;
   } else {
     res.msg = 'That information is not available.';
   }
