@@ -1,4 +1,4 @@
-const Discord = require('discord.io');
+const Discord = require('discord.io-gateway6');
 const logger = require('winston');
 const auth = require('./auth');
 const response = require('./src/responses');
