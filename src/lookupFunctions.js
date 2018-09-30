@@ -27,8 +27,8 @@ exports.getCrewByName = function(bot, n) {
   if (res.id) {
     let char = crew[res.id];
     res.msg = n + ' is ' + char.rank + ' ' + char.character;
-    res += char.active ? ', ' : ', Former ';
-    res += char.position;
+    res.msg += char.active ? ', ' : ', Former ';
+    res.msg += char.position;
   } else {
     res.msg = 'That information is not available.';
   }
