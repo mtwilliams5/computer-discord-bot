@@ -3,19 +3,18 @@ exports.getRandomInt = function(min, max) {
 }
 
 exports.shuffle = function(array) {
-  let m = array.length, t, i;
+  const shuffledArray = [...array];
+  let unshuffledItemIndex = array.length
 
   // While there remain elements to shuffle…
-  while (m) {
-
+  while (unshuffledItemIndex) {
     // Pick a remaining element…
-    i = Math.floor(Math.random() * m--);
-
+    const randomItem = Math.floor(Math.random() * unshuffledItemIndex--);
     // And swap it with the current element.
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
+    const shuffledItem = shuffledArray[unshuffledItemIndex];
+    shuffledArray[unshuffledItemIndex] = shuffledArray[randomItem];
+    shuffledArray[randomItem] = shuffledItem;
   }
 
-  return array;
+  return shuffledArray;
 }

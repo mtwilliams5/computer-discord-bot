@@ -2,60 +2,49 @@ const server = require('../data/server');
 const crew = require('../data/members');
 
 exports.getAllCrew = function(bot) {
-  let members = bot.servers[server.id].members;
-  let res = '';
-  for (let m in members) {
-    if ((members[m].roles).indexOf(server.roles.crew) > -1) {
-      res += bot.servers[server.id].members[m].nick || bot.users[m].username;
-      let char = crew[m];
-      res += ': ' + char.rank + ' ' + char.character;
-      res += char.active ? ', ' : ', Former ';
-      res += char.position + '\n';
+  const members = bot.servers[server.id].members;
+  let allCrew = [];
+  for (const member in members) {
+    if (members[member].roles.indexOf(server.roles.crew) > -1 && crew[member]) {
+      const char = crew[member];
+      const memberName = bot.servers[server.id].members[member].nick || bot.users[member].username;
+      const listing = `${memberName}: ${char.rank} ${char.character}, ${char.position}`
+      allCrew.push(listing);
     }
   }
-  return res.substring(0, res.length-1);
+  return allCrew.join('\n');
 }
 
-exports.getCrewByName = function(bot, n) {
-  let members = bot.servers[server.id].members;
-  let res = {};
-  for (let m in members) {
-    if (members[m].nick == n || bot.users[m].username == n) {
-      res.id = m;
-    }
-  }
-  if (res.id) {
-    let char = crew[res.id];
-    res.msg = n + ' is ' + char.rank + ' ' + char.character;
-    res.msg += char.active ? ', ' : ', Former ';
-    res.msg += char.position;
+exports.getCrewByName = function(bot, name) {
+  const members = bot.servers[server.id].members;
+  const memberId = members.length >= 1 ? members.find(member => members[member].nick === name || bot.users[member].username === name) : undefined;
+  if (memberId) {
+    const char = crew[memberId];
+    return char.active ?
+      `${name} is ${char.rank} ${char.character}, ${char.position}`
+      : `${name} is ${char.rank} ${char.character}, Former ${char.position}`;
   } else {
-    res.msg = 'That information is not available.';
+    return 'That information is not available.';
   }
-  return res.msg;
 }
 
 exports.getCrewByUserId = function(bot, id) {
-  if (crew[id]) {
-    return crew[id];
-  } else {
-    return false;
-  }
+  return crew[id] || false;
 }
 
 const getFirstOfMonth = function() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = d.getMonth();
-  return new Date(y, m, 1);
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  return new Date(year, month, 1);
 }
 
 exports.getSecondSunday = function() {
-  const d = getFirstOfMonth();
-  if(d.getDay() == 0) {
-    return d.setDate(d.getDate + 7);
+  const date = getFirstOfMonth();
+  if(date.getDay() === 0) {
+    return date.setDate(date.getDate + 7);
   } else {
-    const daysToSecondSunday = 14 - d.getDay();
-    return d.setDate(d.getDate + daysToSecondSunday);
+    const daysToSecondSunday = 14 - date.getDay();
+    return date.setDate(date.getDate + daysToSecondSunday);
   }
 }

@@ -30,15 +30,14 @@ bot.on('error', function(err) {
 });
 
 bot.on('message', function (user, userID, channelID, message, evt) {//eslint-disable-line no-unused-vars
-  let args, cmd;
-
   //Our bot needs to know if it will execute a command
   //It will listen for messages that will start with `!`
   if (message.substring(0,1) == '!') {
-    args = message.substring(1).split(' ');
-    cmd = args[0];
+    const messageElements = message.substring(1).split(' ');
+    const cmd = messageElements[0];
 
-    args = args.splice(1);
+    const args = messageElements.splice(1);
+
     switch(cmd) {
       // !help
       case 'help':
@@ -77,11 +76,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
     }
   }
   //We also want it to listen for messages that will start with `Computer `
-  if (message.substring(0,9) == 'Computer ') {
-    args = message.substring(9).split(' ');
-    cmd = args[0];
+  else if (message.substring(0,9) == 'Computer ') {
+    const messageElements = message.substring(9).split(' ');
+    const cmd = messageElements[0];
 
-    args = args.splice(1);
+    const args = messageElements.splice(1);
+
     switch(cmd) {
       // Computer ping
       case 'ping':
@@ -92,6 +92,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {//eslint-dis
       break;
 
       // Crew roster checkup
+      case 'identify':
       case 'who':
         {
           const name = args.join(' ');
